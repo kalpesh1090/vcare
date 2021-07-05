@@ -166,16 +166,11 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
                 return $this->app->isDownForMaintenance();
             };
 
-            $resetScope = function () use ($app) {
-                return $app->forgetScopedInstances();
-            };
-
             return new Worker(
                 $app['queue'],
                 $app['events'],
                 $app[ExceptionHandler::class],
-                $isDownForMaintenance,
-                $resetScope
+                $isDownForMaintenance
             );
         });
     }

@@ -36,6 +36,7 @@
                                     <tr>
                                         <th >Sr No.#</th>
                                         <th>Code</th>
+                                        <th>Company Name</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>   
                                         <th>Status</th>                          
@@ -115,6 +116,10 @@
                     //  orderable: false
                 },
                 {
+                    "data": "company_name"
+                    //  orderable: false
+                },
+                {
                     "data": "start_date",
 
                     "mRender": function(data, type, row) {
@@ -159,9 +164,9 @@
                 "render": function (data, type, row) {
                     var id = row.id;
                     var out = '';
-                    out += '<a title="Edit" href="' + base_url + '/plan/get_update/' + id + '" class="text-info "><i class="icon-pencil7"></i></a>&nbsp;';
-                    out += '<a title="Delete" class="text-danger delete_btn"  href="' + base_url + '/plan/delete/' + id + '"><i class="icon-trash"></i></a>';
-                    out += '&nbsp;<a title="View" href="' + base_url + '/plan/delete/' + id + '" class="text-info "><i class="icon-zoomin3"></i></a>&nbsp;';
+                    out += '<a title="Edit" href="' + base_url + '/master_code/get_update/' + id + '" class="text-info "><i class="icon-pencil7"></i></a>&nbsp;';
+                    out += '<a title="Delete" class="text-danger delete_btn"  href="' + base_url + '/master_code/delete/' + id + '"><i class="icon-trash"></i></a>';
+                    out += '&nbsp;<a title="View" href="' + base_url + '/master_code/view/' + id + '" class="text-info "><i class="icon-zoomin3"></i></a>&nbsp;';
 
                     return out;
                 }

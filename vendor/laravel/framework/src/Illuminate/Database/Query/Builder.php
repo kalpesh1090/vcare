@@ -1095,7 +1095,7 @@ class Builder
     /**
      * Add an "or where null" clause to the query.
      *
-     * @param  string|array  $column
+     * @param  string  $column
      * @return $this
      */
     public function orWhereNull($column)
@@ -1981,6 +1981,16 @@ class Builder
 
         if (! in_array($direction, ['asc', 'desc'], true)) {
             throw new InvalidArgumentException('Order direction must be "asc" or "desc".');
+        }
+
+        if (is_array($this->{$this->unions ? 'unionOrders' : 'orders'})) {
+            foreach ($this->{$this->unions ? 'unionOrders' : 'orders'} as $key => $value) {
+                if ($value['column'] === $column) {
+                    $this->{$this->unions ? 'unionOrders' : 'orders'}[$key]['direction'] = $direction;
+
+                    return $this;
+                }
+            }
         }
 
         $this->{$this->unions ? 'unionOrders' : 'orders'}[] = [

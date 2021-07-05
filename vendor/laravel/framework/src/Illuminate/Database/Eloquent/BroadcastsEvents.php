@@ -22,7 +22,7 @@ trait BroadcastsEvents
         });
 
         if (method_exists(static::class, 'bootSoftDeletes')) {
-            static::softDeleted(function ($model) {
+            static::trashed(function ($model) {
                 $model->broadcastTrashed();
             });
 

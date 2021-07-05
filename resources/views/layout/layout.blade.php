@@ -12,6 +12,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
         <link href="{!! asset('global_assets/css/icons/icomoon/styles.min.css') !!}" rel="stylesheet" type="text/css">
+        <link href="{!! asset('assets/datepicker/datepicker3.css') !!}" rel="stylesheet" type="text/css">
 
 
         <link href="{!! asset('assets/css/all.min.css') !!}" rel="stylesheet" type="text/css">
@@ -30,6 +31,7 @@
         <script src="{!! asset('global_assets/js/plugins/ui/moment/moment.min.js') !!}"></script>
         <script src="{!! asset('global_assets/js/plugins/pickers/daterangepicker.js') !!}"></script>
         <script src="{!! asset('assets/js/app.js') !!}"></script>
+        <script src="{!! asset('assets/datepicker/bootstrap-datepicker.js') !!}"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js" integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg==" crossorigin="anonymous"></script>
         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>

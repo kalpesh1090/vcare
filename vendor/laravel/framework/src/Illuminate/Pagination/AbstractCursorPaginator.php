@@ -10,14 +10,13 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Illuminate\Support\Traits\Tappable;
 
 /**
  * @mixin \Illuminate\Support\Collection
  */
 abstract class AbstractCursorPaginator implements Htmlable
 {
-    use ForwardsCalls, Tappable;
+    use ForwardsCalls;
 
     /**
      * All of the items being paginated.

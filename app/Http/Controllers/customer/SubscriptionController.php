@@ -100,8 +100,12 @@ class SubscriptionController extends Controller
         try{
         if ($request->promo_Code) {
 
-            $code_master = \App\Models\CodeMaster::where('code_name',$code)->first();
-
+            $code_master = \App\Models\CodeMaster::where('code_name',$code)
+             ->whereDate('start_date', '<=', date("Y-m-d"))
+             ->whereDate('end_date', '>=', date("Y-m-d"))
+             ->where('status',1)
+             ->first();
+        // dd($code_master);
             if ($code_master) {
                 $plans = \App\Models\Subscription::where('master_code_id', $code_master->id)->get();
                 return view('subscription.subscribe_with_promo', compact('plans', 'user', 'code_master'));

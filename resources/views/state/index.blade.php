@@ -129,11 +129,6 @@
                     },
                     //  orderable: false
                 },
-               
-			
-			
-		
-			
 				
 				{"data": 6, "searchable": false, "orderable": false,
                 "render": function (data, type, row) {

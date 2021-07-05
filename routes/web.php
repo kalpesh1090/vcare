@@ -14,6 +14,7 @@ use App\Http\controllers\customer\DocumentTypeController;
 use App\Http\controllers\customer\FinancialYearController;
 use App\Http\controllers\customer\PlanController;
 use App\Http\controllers\customer\CountryController;
+use App\Http\controllers\register\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,6 +116,8 @@ Route::get('/master_code/get_update/{id}', [CodeMasterController::class, 'getUpd
 Route::post('/master_code/post_update', [CodeMasterController::class, 'postUpdate'])->name('master_code.post_update'); 
 Route::get('/master_code/delete/{id}', [CodeMasterController::class, 'getDelete'])->name('master_code.delete'); 
 });
+
+
 Route::group(['middleware' => ['admin']], function () {
 //    country route
 Route::get('/country', [CountryController::class, 'getIndex'])->name('country.index'); 
@@ -170,6 +173,11 @@ Route::get('/plan/get_update/{id}', [PlanController::class, 'getUpdate'])->name(
 Route::post('/plan/post_update', [PlanController::class, 'postUpdate'])->name('plan.post_update'); 
 Route::get('/plan/delete/{id}', [PlanController::class, 'getDelete'])->name('plan.delete'); 
 
+
+//reg
+//registration-list
+Route::get('/registration-list', [RegisterController::class, 'getIndex'])->name('register.index'); 
+Route::get('/registration/list', [RegisterController::class, 'getList'])->name('country.list');
 });
 });
 

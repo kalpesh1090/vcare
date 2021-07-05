@@ -56,8 +56,8 @@
 						<div class="col-lg-6">
 							<label>Status<span class="text-danger">*</span></label>
                             <select name="status" class="custom-select" >
-                                 <option {{($state->status=1)? 'selected="selected"' : ''}}  value="1">Active</option>
-                                 <option {{($state->status=2)? 'selected="selected"' : ''}}  value="2">Inactive</option>
+                                 <option {{($state->status==1)? 'selected="selected"' : ''}}  value="1">Active</option>
+                                 <option {{($state->status==2)? 'selected="selected"' : ''}}  value="2">Inactive</option>
                                                         
                              </select>		
                              <span  class="status text-danger"></span>

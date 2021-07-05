@@ -44,8 +44,8 @@
 							<label>Status<span class="text-danger">*</span></label>
                             <select name="status" class="custom-select" >
                                  
-                                 <option {{($document_type->status=1)? 'selected="selected"' : ''}}  value="1">Active</option>
-                                 <option {{($document_type->status=2)? 'selected="selected"' : ''}}   value="2">Inactive</option>
+                                 <option {{($document_type->status==1)? 'selected="selected"' : ''}}  value="1">Active</option>
+                                 <option {{($document_type->status==2)? 'selected="selected"' : ''}}   value="2">Inactive</option>
                                                         
                              </select>		
                              <span  class="status text-danger"></span>

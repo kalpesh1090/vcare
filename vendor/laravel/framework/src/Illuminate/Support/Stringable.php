@@ -340,7 +340,13 @@ class Stringable implements JsonSerializable
      */
     public function match($pattern)
     {
-        return new static(Str::match($pattern, $this->value));
+        preg_match($pattern, $this->value, $matches);
+
+        if (! $matches) {
+            return new static;
+        }
+
+        return new static($matches[1] ?? $matches[0]);
     }
 
     /**
@@ -351,7 +357,13 @@ class Stringable implements JsonSerializable
      */
     public function matchAll($pattern)
     {
-        return Str::matchAll($pattern, $this->value);
+        preg_match_all($pattern, $this->value, $matches);
+
+        if (empty($matches[0])) {
+            return collect();
+        }
+
+        return collect($matches[1] ?? $matches[0]);
     }
 
     /**

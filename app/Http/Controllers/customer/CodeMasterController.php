@@ -11,7 +11,10 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use App\Models\State;
 use App\Models\CodeMaster;
+use App\Models\Subscription;
 use Hash;
+use Carbon\Carbon;
+
 class CodeMasterController extends Controller
 {
     /**
@@ -55,23 +58,42 @@ public function getList(){
     
     public function postCreate(Request $request)
     {
+        // dd($request->all());
         //echo "dfadsf";exit;
         
         // // $id = Auth::user()->id;  
         $request->validate([
-            'name'=>'required',
-            'amount'=>'required',
+            'promo_code'=>'required|min:6|max:6',
+            'start_date'=>'required',
+            'end_date'=>'required',
+            'company_name'=>'required',
             'status'=>'required',
         ]);
         
-          $subscription= new CodeMaster();
-          $subscription->name=$request->name;
-          $subscription->amount=$request->amount;
-          $subscription->status=$request->status;
-          $subscription->save();
-         return response()->json(array('success'=>true,'message' =>'data inserted successfully'));
+          $code_master= new CodeMaster();
+          $code_master->code_name=$request->promo_code;
+          $code_master->start_date=\Carbon\Carbon::parse($request->start_date);
+          $code_master->company_name=$request->company_name;
+          $code_master->end_date=\Carbon\Carbon::parse($request->end_date);
+          //$code_master->save();
 
-    }
+            if($code_master->save()){
+                if($request->plan_titles)
+                    foreach ($request->plan_titles as $key => $value) {
+                         $promo_plane= new Subscription();  
+                         $promo_plane->name=$request->plan_titles[$key];
+                         $promo_plane->standard_fee=$request->standard_amount[$key];
+                         $promo_plane->master_code_id=$code_master->id;
+                         $promo_plane->amount=$request->discount_amount[$key];
+                          $promo_plane->save(); 
+                    }
+                }    
+            
+            return response()->json(array('success'=>true,'message' =>'data inserted successfully'));   
+          }
+         
+
+    
     
 
     
@@ -86,9 +108,9 @@ public function getList(){
     {
         // dd($id);
 
-        $subscription=CodeMaster::findOrFail($id);
-        
-        return view('code_master.update',compact('subscription'));
+        $code_master=CodeMaster::findOrFail($id);
+        // dd($code_master);
+        return view('code_master.update',compact('code_master'));
     }
 
     /**
@@ -103,16 +125,19 @@ public function getList(){
         // dd($request->all());
         // $id = Auth::user()->id;  
         $request->validate([
-            'name'=>'required',
-            'amount'=>'required',
+            'promo_code'=>'required|min:6|max:6',
+            'start_date'=>'required',
+            'end_date'=>'required',
+            'company_name'=>'required',
             'status'=>'required',
         ]);
         
-        $subscription=CodeMaster::findOrFail($request->id);
-        $subscription->name=$request->name;
-        $subscription->amount=$request->amount;
-        $subscription->status=$request->status;
-        $subscription->save();
+        $code_master=CodeMaster::findOrFail($request->id);
+        $code_master->code_name=$request->promo_code;
+          $code_master->start_date=\Carbon\Carbon::parse($request->start_date);
+          $code_master->company_name=$request->company_name;
+          $code_master->end_date=\Carbon\Carbon::parse($request->end_date);
+        $code_master->save();
          return response()->json(array('success'=>true,'message' =>'data updated successfully'));
      
       

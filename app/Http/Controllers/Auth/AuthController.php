@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
 use App\Models\Income_tax_returns;
 use App\Models\Member;
+
 use Mail;
 use Session;
 use DB;
@@ -337,5 +338,8 @@ class AuthController extends Controller {
 
         return Redirect('/');
     }
+
+
+    
 
 }

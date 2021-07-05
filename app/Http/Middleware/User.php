@@ -17,6 +17,7 @@ class User {
      * @return mixed
      */
     public function handle(Request $request, Closure $next) {
+        
         if (Auth::user()->user_type == "3" ) {
             return $next($request);
         } else {

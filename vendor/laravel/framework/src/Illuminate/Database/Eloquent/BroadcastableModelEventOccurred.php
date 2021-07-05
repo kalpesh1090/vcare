@@ -97,14 +97,4 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
 
         return $this;
     }
-
-    /**
-     * Get the event name.
-     *
-     * @return string
-     */
-    public function event()
-    {
-        return $this->event;
-    }
 }

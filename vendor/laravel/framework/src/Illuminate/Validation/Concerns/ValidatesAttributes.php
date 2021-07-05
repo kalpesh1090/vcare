@@ -56,7 +56,7 @@ trait ValidatesAttributes
 
         if ($url = parse_url($value, PHP_URL_HOST)) {
             try {
-                return count(dns_get_record($url.'.', DNS_A | DNS_AAAA)) > 0;
+                return count(dns_get_record($url, DNS_A | DNS_AAAA)) > 0;
             } catch (Exception $e) {
                 return false;
             }
@@ -346,28 +346,6 @@ trait ValidatesAttributes
     public function validateConfirmed($attribute, $value)
     {
         return $this->validateSame($attribute, $value, [$attribute.'_confirmation']);
-    }
-
-    /**
-     * Validate that the password of the currently authenticated user matches the given value.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  array  $parameters
-     * @return bool
-     */
-    protected function validateCurrentPassword($attribute, $value, $parameters)
-    {
-        $auth = $this->container->make('auth');
-        $hasher = $this->container->make('hash');
-
-        $guard = $auth->guard(Arr::first($parameters));
-
-        if ($guard->guest()) {
-            return false;
-        }
-
-        return $hasher->check($value, $guard->user()->getAuthPassword());
     }
 
     /**
@@ -827,11 +805,6 @@ trait ValidatesAttributes
 
             $table = $model->getTable();
             $connection = $connection ?? $model->getConnectionName();
-
-            if (Str::contains($table, '.') && Str::startsWith($table, $connection)) {
-                $connection = null;
-            }
-
             $idColumn = $model->getKeyName();
         }
 
@@ -1347,7 +1320,7 @@ trait ValidatesAttributes
     }
 
     /**
-     * Validate that the password of the currently authenticated user matches the given value.
+     * Validate that the current logged in user's password matches the given value.
      *
      * @param  string  $attribute
      * @param  mixed  $value
@@ -1356,7 +1329,16 @@ trait ValidatesAttributes
      */
     protected function validatePassword($attribute, $value, $parameters)
     {
-        return $this->validateCurrentPassword($attribute, $value, $parameters);
+        $auth = $this->container->make('auth');
+        $hasher = $this->container->make('hash');
+
+        $guard = $auth->guard(Arr::first($parameters));
+
+        if ($guard->guest()) {
+            return false;
+        }
+
+        return $hasher->check($value, $guard->user()->getAuthPassword());
     }
 
     /**

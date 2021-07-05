@@ -30,45 +30,59 @@
             
 @csrf
 
-				<div class="form-group">
+<div class="form-group">
 					<div class="row">
 						<div class="col-lg-6">
-							<label>Name<span class="text-danger">*</span></label>
-							<input type="text"  value="{{$subscription->name}}" class="form-control" name="name" placeholder="Subscription Name">
-                            <span  class="name text-danger"></span>
+							<label>Promo Code<span class="text-danger">*</span></label>
+							<input name="promo_code" style="color: black; font-size: larger;" type="text"   value="{{$code_master->code_name}}" class="form-control" name="promo_code" placeholder="Promo Code">
+                  <span  class="promo_code text-danger"></span>
 
 						</div>
-            <input type="text" hidden name="id" value="{{$subscription->id}}">
-        
-            <div class="col-lg-6">
-							<label>Amount<span class="text-danger">*</span></label>
-							<input type="text"  value="{{$subscription->amount}}" class="form-control" name="amount" placeholder="Amount">
-                            <span  class="amount text-danger"></span>
+            <input type="number" class="" name="id" value="{{$code_master->id}}" hidden>
 
-						</div>
+                <div class="col-lg-6">
+                <label>Company Name<span class="text-danger">*</span></label>
+							<input type="text"  value="{{$code_master->company_name}}" class="form-control" name="company_name" placeholder="Company Name">
+                  <span  class="company_name text-danger"></span>
+				
+                </div>
+                
 					</div>
           <div class="row">
-					
-        
+          <div class="col-lg-6">
+                <label>start Date<span class="text-danger">*</span></label>
+							<input type="text"  value="{{\Carbon\Carbon::parse($code_master->start_date)->format('d/m/Y')}}" class="date form-control" name="start_date" placeholder="Start Date">
+                  <span  class="start_date text-danger"></span>
+				
+                </div>  
+          <div class="col-lg-6">
+                <label>End Date<span class="text-danger">*</span></label>
+							<input type="text"   value="{{\Carbon\Carbon::parse($code_master->end_date)->format('d/m/Y')}}" class="date form-control" name="end_date" placeholder="End Date">
+                  <span  class="end_date text-danger"></span>
+				
+                </div>
 						<div class="col-lg-6">
-							<label>Status<span class="text-danger">*</span></label>
+						
+                  <label>Status<span class="text-danger">*</span></label>
                             <select name="status" class="custom-select" >
                                  
-                                 <option {{($subscription->status=1)? 'selected="selected"' : ''}}  value="1">Active</option>
-                                 <option  {{($subscription->status=1)? 'selected="selected"' : ''}}  value="2">Inactive</option>
-                                                        
+                            <option {{($code_master->status==1)? 'selected="selected"' : ''}}  value="1">Active</option>
+                                 <option{{($code_master->status==2)? 'selected="selected"' : ''}} value="2">Inactive</option>
+                                                            
                              </select>		
                              <span  class="status text-danger"></span>
-				
-                         </div>
+						</div>
+					
+             
 					</div>
 				</div>
 
 
 
 
+
                 <div class="text-right">
-                                        <a href="{{url('plan')}}" id="createBtn" class="btn btn-danger">Cancel</a>
+                                        <a href="{{url('master_code')}}" id="createBtn" class="btn btn-danger">Cancel</a>
                 	<button type="button" id="createBtn" class="btn btn-primary">Submit</button>
 
                 </div>
@@ -84,6 +98,9 @@
 @section('footer-scripts')
 
 <script type="text/javascript">
+ $('.date').datepicker({
+        autoclose: true
+    })
    jQuery(function($) {
     $(document).on('click', '#createBtn', function(e) {
         $('.text-danger').html('');
@@ -92,7 +109,7 @@
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           },
-        url: "{{ route('plan.post_update') }}",
+        url: "{{ route('master_code.post_update') }}",
         data:  new FormData($('form')[0]),
         processData: false,
         contentType: false,
@@ -126,7 +143,7 @@ $.each(error.errors,function(k,v){
             var notification = alertify.notify(data.message, 'success', 6);
           $('#createBtn').attr('disabled', false);
           $('.message_box').html(data.msg).removeClass('hide alert-danger').addClass('alert-success');
-          window.location.replace('{{ route("plan.index")}}');
+          window.location.replace('{{ route("master_code.index")}}');
 
         }
       });
