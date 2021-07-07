@@ -180,8 +180,8 @@ Route::get('/user_registration', [RegisterController::class, 'getIndex'])->name(
 Route::get('/user_registration/list', [RegisterController::class, 'getList'])->name('user_registration.list');
 Route::get('/user_registration/get_create', [RegisterController::class, 'getCreate'])->name('user_registration.get_create');
 Route::post('/user_registration/post_create', [RegisterController::class, 'postCreate'])->name('user_registration.post_create');
-Route::get('/user_registration/get_update', [RegisterController::class, 'getUpdate'])->name('user_registration.get_update');
+Route::get('/user_registration/get_update/{id}', [RegisterController::class, 'getUpdate'])->name('user_registration.get_update');
 Route::post('/user_registration/post_update', [RegisterController::class, 'postUpdate'])->name('user_registration.post_update');
 Route::get('/user_registration/delete/{id}', [RegisterController::class, 'getDelete'])->name('user_registration.delete');
-Route::get('/user_registration/view', [RegisterController::class, 'view'])->name('user_registration.view');
+Route::get('/user_registration/view/{id}', [RegisterController::class, 'view'])->name('user_registration.view');
 

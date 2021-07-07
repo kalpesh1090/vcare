@@ -102,11 +102,11 @@ var user_id='';
 
             }
             if(status==2){
-                var r = confirm('Are You sure to Active');
+                var r = confirm('Are You sure to Inactive');
 
             }
             if(status==3){
-                var r = confirm('Are You sure to Inactive');
+                var r = confirm('Are You sure to Active');
 
             }
 
@@ -158,9 +158,9 @@ var user_id='';
                     if(row.status == '0'){
                         out += '<a data-id="1" data-user_id="'+row.id+'" href="#" id="status" class="status btn btn-danger btn-sm">Verify Email</a>';    
                     }else if(row.status == '1'){
-                        out +='&nbsp<a data-id="2" data-user_id="'+row.id+'" id="status" href="#" class="status btn btn-success btn-sm">Inactive</a>'
+                        out +='&nbsp<a data-id="2" data-user_id="'+row.id+'" id="status" href="#" class="status btn btn-success btn-sm">Active</a>'
                     }else if(row.status == '2'){
-                        out +='&nbsp<a data-id="3" data-user_id="'+row.id+'" href="#" id="status" class="status btn btn-success btn-sm">Active</a>'
+                        out +='&nbsp<a data-id="3" data-user_id="'+row.id+'" href="#" id="status" class="status btn btn-success btn-sm">Inactive</a>'
                     } 
 
 
@@ -180,7 +180,7 @@ var user_id='';
                     var out = '';
                     out += '<a title="Edit" href="' + base_url + '/user_registration/get_update/' + id + '" class="text-info "><i class="icon-pencil7"></i></a>&nbsp;';
                     out += '<a title="Delete" class="text-danger delete_btn"  href="' + base_url + '/user_registration/delete/' + id + '"><i class="icon-trash"></i></a>';
-                    out += '&nbsp;<a title="View" href="' + base_url + '/user_registration/delete/' + id +'" class="text-info "><i class="icon-zoomin3"></i></a>&nbsp;';
+                    out += '&nbsp;<a title="View" href="' + base_url + '/user_registration/view/' + id +'" class="text-info "><i class="icon-zoomin3"></i></a>&nbsp;';
                     return out;
                 }
             },

@@ -524,7 +524,7 @@ class IncomeTaxReturnController extends Controller {
         ->leftJoin('states','states.id','income_tax_returns.state')
         ->leftJoin('countries','countries.id','income_tax_returns.country')
         ->first();
-        return view("customer.view",\compact('Income_tax_return'));
+        return view("customer.view",compact('Income_tax_return'));
     }
 
 }

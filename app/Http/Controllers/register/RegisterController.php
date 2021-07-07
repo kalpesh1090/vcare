@@ -90,24 +90,73 @@ class RegisterController extends Controller
             'password'=>'required',
         ]);
         
-          $state= new User();
-          $state->name=$request->first_name;
-          $state->last_name=$request->last_name;
-          $state->mobile=$request->mobile;
-          $state->status=$request->status;
-          $state->email=$request->email;
-          $state->password=$request->password;
-          $state->role=1;
-          $state->save();
+          $user= new User();
+          $user->name=$request->first_name;
+          $user->last_name=$request->last_name;
+          $user->mobile=$request->mobile;
+          $user->status=$request->status;
+          $user->email=$request->email;
+          $user->password=bcrypt($request->password);
+          $user->role=1;
+          $user->save();
          return response()->json(array('success'=>true,'message' =>'data inserted successfully'));
 
     }
-    
+
+    public function getUpdate($id)
+    {
+        $user=User::findOrFail($id);
+       
+        return view('register.update',compact('user'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function postUpdate(Request $request)
+    {
+        // dd($request->all());
+        // $id = Auth::user()->id;  
+        $request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'mobile'=>'required',
+            'email'=>'required',
+            'status'=>'required',
+            'password'=>'required',
+        ]);
+        
+        $user=User::findOrFail($request->id);
+        $user->name=$request->first_name;
+        $user->last_name=$request->last_name;
+        $user->mobile=$request->mobile;
+        $user->status=$request->status;
+        $user->email=$request->email;
+        $user->password=bcrypt($request->password);
+        $user->role=1;
+        $user->save();
+         return response()->json(array('success'=>true,'message' =>'data updated successfully'));
+     
+      
+        
+
+    }
+  
+   
     public function getDelete($id){
         // dd($id);
         $subscription =User::find($id)->delete();
         $message = ['msg' => 'success'];
         return response()->json($message, 200);
 
+    }
+
+    public function view($id=null){
+        $user=User::findOrFail($id);
+        return view("register.view",compact('user'));
     }
 }
