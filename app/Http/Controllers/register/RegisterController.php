@@ -32,14 +32,25 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCreate()
-    {
-        return view('country.create');
-    }
    
     public function getList(Request $request){
-        $members = \App\Models\user::select("*", \DB::raw("CONCAT_WS(' ',name,last_name) as full_name"));
-        
+        // dd($request->user_id);
+        $members = \App\Models\User::select("*", \DB::raw("CONCAT_WS(' ',name,last_name) as full_name"));
+        // dd($members->get());
+        if ($request->status && $request->user_id) {
+
+            $member=\App\Models\User::where('id', $request->user_id)->first();
+            if($request->status==3){
+                // dd($request->status);
+                $member->status='1';
+
+            }
+            else{
+                $member->status=$request->status;
+
+            }
+            $member->save();
+        }
         if ($request->filled('aadhaar_number')) {
             $members->where('aadhaar_number', $request->aadhaar_number);
         }
@@ -55,5 +66,48 @@ class RegisterController extends Controller
             $members->where('created_user_id', Auth::user()->id)->orderBy("id","Desc");    
         }
         return DataTables::of($members)->make();
+    }
+    public function getCreate()
+    {
+        // dd("hi");
+        $length = 6;
+        $str = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+ 
+       $password= substr(str_shuffle($str), 0, $length);
+        return view('register.create',compact('password'));
+    }
+   
+    public function postCreate(Request $request)
+    {
+// dd($request->all());        
+        // // $id = Auth::user()->id;  
+        $request->validate([
+            'first_name'=>'required',
+            'last_name'=>'required',
+            'mobile'=>'required',
+            'email'=>'required',
+            'status'=>'required',
+            'password'=>'required',
+        ]);
+        
+          $state= new User();
+          $state->name=$request->first_name;
+          $state->last_name=$request->last_name;
+          $state->mobile=$request->mobile;
+          $state->status=$request->status;
+          $state->email=$request->email;
+          $state->password=$request->password;
+          $state->role=1;
+          $state->save();
+         return response()->json(array('success'=>true,'message' =>'data inserted successfully'));
+
+    }
+    
+    public function getDelete($id){
+        // dd($id);
+        $subscription =User::find($id)->delete();
+        $message = ['msg' => 'success'];
+        return response()->json($message, 200);
+
     }
 }

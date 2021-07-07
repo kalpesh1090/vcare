@@ -8,13 +8,13 @@ use App\Http\Controllers\customer\DocumentController;
 use App\Http\Controllers\payment\PaymentController;
 use App\Http\Controllers\members\MembersController;
 use App\Http\Controllers\customer\CodeMasterController;
-use App\Http\controllers\customer\StateController;
-use App\Http\controllers\customer\DistrictController;
-use App\Http\controllers\customer\DocumentTypeController;
-use App\Http\controllers\customer\FinancialYearController;
-use App\Http\controllers\customer\PlanController;
-use App\Http\controllers\customer\CountryController;
-use App\Http\controllers\register\RegisterController;
+use App\Http\Controllers\customer\StateController;
+use App\Http\Controllers\customer\DistrictController;
+use App\Http\Controllers\customer\DocumentTypeController;
+use App\Http\Controllers\customer\FinancialYearController;
+use App\Http\Controllers\customer\PlanController;
+use App\Http\Controllers\customer\CountryController;
+use App\Http\Controllers\register\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -172,12 +172,16 @@ Route::post('plan/post_create', [PlanController::class, 'postCreate'])->name('pl
 Route::get('/plan/get_update/{id}', [PlanController::class, 'getUpdate'])->name('plan.get_update'); 
 Route::post('/plan/post_update', [PlanController::class, 'postUpdate'])->name('plan.post_update'); 
 Route::get('/plan/delete/{id}', [PlanController::class, 'getDelete'])->name('plan.delete'); 
-
-
 //reg
 //registration-list
-Route::get('/registration-list', [RegisterController::class, 'getIndex'])->name('register.index'); 
-Route::get('/registration/list', [RegisterController::class, 'getList'])->name('country.list');
 });
 });
+Route::get('/user_registration', [RegisterController::class, 'getIndex'])->name('user_registration.index'); 
+Route::get('/user_registration/list', [RegisterController::class, 'getList'])->name('user_registration.list');
+Route::get('/user_registration/get_create', [RegisterController::class, 'getCreate'])->name('user_registration.get_create');
+Route::post('/user_registration/post_create', [RegisterController::class, 'postCreate'])->name('user_registration.post_create');
+Route::get('/user_registration/get_update', [RegisterController::class, 'getUpdate'])->name('user_registration.get_update');
+Route::post('/user_registration/post_update', [RegisterController::class, 'postUpdate'])->name('user_registration.post_update');
+Route::get('/user_registration/delete/{id}', [RegisterController::class, 'getDelete'])->name('user_registration.delete');
+Route::get('/user_registration/view', [RegisterController::class, 'view'])->name('user_registration.view');
 

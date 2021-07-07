@@ -16,8 +16,8 @@ class Admin {
      * @return mixed
      */
     public function handle(Request $request, Closure $next) {
-        
-        if (Auth::user()->user_type == "1" || Auth::user()->user_type == "2" || Auth::user()->user_type == "3") {
+    echo "admin";
+        if (Auth::user()->user_type == "1" || Auth::user()->user_type == "2" ) {
             return $next($request);
         } else {
             return response(view('errors.404'), 404);

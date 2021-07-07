@@ -8,7 +8,7 @@
 						<div class="d-flex">
 							<div class="breadcrumb">
 								<a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-								<span class="breadcrumb-item active">Countries List
+								<span class="breadcrumb-item active">Users List
 
 </span>
 							</div>
@@ -17,7 +17,7 @@
 						</div>
 
 						<div class="d-flex justify-content-center">
-                            <a class="btn btn-info text-right pull-right float-right btn-xm"  href="{{url('country/get_create')}}" style="padding: 4px 10px;">Add</a>
+                            <a class="btn btn-info text-right pull-right float-right btn-xm"  href="{{url('user_registration/get_create')}}" style="padding: 4px 10px;">Add</a>
 						</div>
 
 						
@@ -31,10 +31,9 @@
 					<!-- Form validation -->
 					<div class="card">
                     <div class="card-body">
-
 							<table id="return_tbl" class="table mt-3" style="width:100%">
                                 <thead>
-                                    <tr>
+                                <tr>
                                         <th >Sr No.#</th>
                                         <th>Name</th>
                                         <th>Email</th>
@@ -84,13 +83,40 @@
 @section('footer-scripts')  
 <script type="text/javascript">
     $(function() {
-
+var status='';
+var user_id='';
         $("#search").on('click',function(){
             // alert("hi");
             $('#return_tbl').DataTable().ajax.reload();
 
         })
+        $('#return_tbl').on('click', '.status', function(e) {
+            // alert("hii");
+            e.preventDefault();
+             status = $(this).attr('data-id');
+             user_id = $(this).attr('data-user_id');
+             
 
+            if(status==1){
+                var r = confirm('Are You sure  to verify Email');
+
+            }
+            if(status==2){
+                var r = confirm('Are You sure to Active');
+
+            }
+            if(status==3){
+                var r = confirm('Are You sure to Inactive');
+
+            }
+
+            if (r == false) {
+                return false;
+            }
+            $('#return_tbl').DataTable().ajax.reload();
+            
+        }
+    );
         $('#return_tbl').DataTable({
             
             processing: true,
@@ -98,11 +124,13 @@
             sDom : 'RfrtlipB',
             ajax: {
                 type: 'GET',
-                url: base_url + '/registration/list',
+                url: base_url + '/user_registration/list',
                 data: function(params) {
                     params.aadhaar_number = $('[name="aadhaar_number"]').val();
                     params.pan_number = $('[name="pan_number"]').val();
                     params.itr_name = $('[name="itr_name"]').val();
+                    params.status = status;
+                    params.user_id = user_id;
                 }
             },
             columns: [
@@ -124,34 +152,41 @@
                     //  orderable: false
                 },
                 
-                {
-                    "data": "status",
-                    "mRender": function(data, type, row) {
-                        if (data==0 || data== "") {
-                            return "<a href='javascript:;' class='btn btn-warning btn-sm'>Verification Penidng</a>";
-                        } else if(data == 1){
-                            return "<a href='javascript:;' class='btn btn-success btn-sm'>Active</a>";
-                        }else if(data == 2){
-                            return "<a href='javascript:;' class='btn btn-danger btn-sm'>Deactivate</a>";
-                        }
-                    },
-                    //  orderable: false
-                },
+                {"data": 5,
+                "render": function (data, type, row) {
+                    var out='';
+                    if(row.status == '0'){
+                        out += '<a data-id="1" data-user_id="'+row.id+'" href="#" id="status" class="status btn btn-danger btn-sm">Verify Email</a>';    
+                    }else if(row.status == '1'){
+                        out +='&nbsp<a data-id="2" data-user_id="'+row.id+'" id="status" href="#" class="status btn btn-success btn-sm">Inactive</a>'
+                    }else if(row.status == '2'){
+                        out +='&nbsp<a data-id="3" data-user_id="'+row.id+'" href="#" id="status" class="status btn btn-success btn-sm">Active</a>'
+                    } 
+
+
+                    return out;
+                }
+
+            },
                
+			
+			
+		
+			
 				
 				{"data": 6, "searchable": false, "orderable": false,
                 "render": function (data, type, row) {
                     var id = row.id;
                     var out = '';
-                    // out += '<a title="Edit" href="' + base_url + '/country/get_update/' + id + '" class="text-info "><i class="icon-pencil7"></i></a>&nbsp;';
-                    //out += '<a title="Delete" class="text-danger delete_btn"  href="' + base_url + '/country/delete/' + id + '"><i class="icon-trash"></i></a>';
-                    
-
+                    out += '<a title="Edit" href="' + base_url + '/user_registration/get_update/' + id + '" class="text-info "><i class="icon-pencil7"></i></a>&nbsp;';
+                    out += '<a title="Delete" class="text-danger delete_btn"  href="' + base_url + '/user_registration/delete/' + id + '"><i class="icon-trash"></i></a>';
+                    out += '&nbsp;<a title="View" href="' + base_url + '/user_registration/delete/' + id +'" class="text-info "><i class="icon-zoomin3"></i></a>&nbsp;';
                     return out;
                 }
             },
             ]
         });
+       
 
         $('#return_tbl').on('click', '.delete_btn', function(e) {
             e.preventDefault();
@@ -162,46 +197,16 @@
 
             var href = $(this).attr('href');
             $.get(href, function(data) {
+
                 alertify.set('notifier', 'position', 'top-right');
             var notification = alertify.notify("data deleted successfully", 'success', 6);
-            $('#return_tbl').DataTable().ajax.reload();
-            });
-           
+            $('#return_tbl').DataTable().ajax.reload();            });
 
         });
 
         // $( ".dataTables_filter" ).wrap( "<div class='filterSearch' style='display:none;'></div>" );
 
         // $( ".table-striped" ).wrap( "<div class='new-Tblover' style='overflow:auto'></div>" );
-
-        function chagestatus(id,status){
-            if(id=='' && status == ''){
-                bootbox.alert('Data does not exist!');
-                return false;
-            }
-
-
-            bootbox.confirm('Are you sure, you want to change status?',function(result){
-                if(result){
-                    $.ajax({
-                        type:"post",
-                        url:url: base_url + '/state/list',
-                        data:'product_id='+product_id+'&status='+status,
-                        success:function(data){
-                            
-                            if(data === '1'){
-                                bootbox.alert('Status updated successfully!');
-                            } else {
-                                bootbox.alert('There is some error processing your request!');
-                            }            
-                            oTable.fnDraw();
-                        }
-                    });
-
-                }
-            });
-
-        }
 
     });
 </script>

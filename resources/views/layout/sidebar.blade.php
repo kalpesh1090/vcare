@@ -89,6 +89,13 @@
 										<!--<span class="badge badge-primary align-self-center ml-auto">3.0</span> -->
 									</a>
 								</li>
+								<li class="nav-item">
+									<a href="{{url('/user_registration')}}" class="nav-link">
+										<i class="icon-credit-card icon-resize" ></i>
+										<span>Users</span>
+										<!--<span class="badge badge-primary align-self-center ml-auto">3.0</span> -->
+									</a>
+								</li>
 								
 							</ul>
 						</li>							    
